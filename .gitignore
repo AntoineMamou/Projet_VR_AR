@@ -44,6 +44,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -98,3 +99,15 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Unity build folders
+/[Bb]uild/
+/[Bb]uilds/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+
+# .vscode
+.vscode
+.vscode/*
+
+# Unity Burst Debug folders
+*_BurstDebugInformation_DoNotShip
