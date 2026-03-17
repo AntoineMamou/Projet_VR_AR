@@ -92,6 +92,57 @@ MonoBehaviour:
   customRuntimeLoaderName: 
   targetQuest: 1
   targetQuest2: 1
+--- !u!114 &-7414916480361462555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a1f07dc5afe854f9f12a4194aca3fb, type: 3}
+  m_Name: WebGL
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.OpenXRSettings
+  features:
+  - {fileID: -7347176126817893135}
+  customLoaderName: 
+  m_renderMode: 1
+  m_latencyOptimization: 0
+  m_autoColorSubmissionMode: 1
+  m_colorSubmissionModes:
+    m_List: 00000000
+  m_depthSubmissionMode: 0
+  m_spacewarpMotionVectorTextureFormat: 0
+  m_optimizeBufferDiscards: 0
+  m_symmetricProjection: 0
+  m_optimizeMultiviewRenderRegions: 0
+  m_multiviewRenderRegionsOptimizationMode: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
+  m_foveatedRenderingApi: 0
+  m_useOpenXRPredictedTime: 0
+--- !u!114 &-7347176126817893135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b213d3e3c7f3109449eb46a4c8ee42f0, type: 3}
+  m_Name: XrPerformanceSettingsFeature WebGL
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings.XrPerformanceSettingsFeature
+  m_enabled: 0
+  nameUi: XR Performance Settings
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.extension.performance_settings
+  openxrExtensionStrings: XR_EXT_performance_settings
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-6830368780349541161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,25 +225,25 @@ MonoBehaviour:
   m_Name: Standalone
   m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.OpenXRSettings
   features:
-  - {fileID: 3977339164026184098}
-  - {fileID: -4517026563874278407}
   - {fileID: 8589757492872253495}
-  - {fileID: -2590240896048321836}
-  - {fileID: -6457546115568250005}
-  - {fileID: 7102580381850919082}
-  - {fileID: 42065324106689046}
-  - {fileID: 2359915712310806327}
   - {fileID: -2755845055923945433}
+  - {fileID: 42065324106689046}
+  - {fileID: -1202045360652338369}
   - {fileID: 2954157710175308777}
-  - {fileID: -222487157019130100}
+  - {fileID: -3293853023503615327}
+  - {fileID: 6122492153823786042}
   - {fileID: 9021700016705119014}
   - {fileID: -1937070726245392162}
-  - {fileID: -3293853023503615327}
-  - {fileID: -4728520079820417960}
-  - {fileID: 6122492153823786042}
-  - {fileID: -1202045360652338369}
   - {fileID: -4647022468358829963}
+  - {fileID: 2359915712310806327}
+  - {fileID: 7102580381850919082}
+  - {fileID: -222487157019130100}
+  - {fileID: -4517026563874278407}
+  - {fileID: -6457546115568250005}
+  - {fileID: -2590240896048321836}
+  - {fileID: 3977339164026184098}
   - {fileID: 7406106245755131571}
+  - {fileID: -4728520079820417960}
   customLoaderName: 
   m_renderMode: 1
   m_latencyOptimization: 0
@@ -205,7 +256,7 @@ MonoBehaviour:
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegionSetting: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 0
   m_useOpenXRPredictedTime: 0
 --- !u!114 &-4728520079820417960
@@ -602,10 +653,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ebc320a151d3408ea1e9fce54d40e, type: 3}
   m_Name: OpenXR Package Settings
   m_EditorClassIdentifier: Unity.XR.OpenXR.Editor::UnityEditor.XR.OpenXR.OpenXRPackageSettings
-  Keys: 0100000007000000
+  Keys: 01000000070000000d000000
   Values:
   - {fileID: -6346134745200712118}
   - {fileID: 3550578372099306297}
+  - {fileID: -7414916480361462555}
 --- !u!114 &42065324106689046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,7 +771,7 @@ MonoBehaviour:
   lateLatchingDebug: 0
   optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegions: 0
+  m_hasMigratedMultiviewRenderRegions: 1
   spacewarpMotionVectorTextureFormat: 0
 --- !u!114 &2954157710175308777
 MonoBehaviour:
@@ -756,25 +808,25 @@ MonoBehaviour:
   m_Name: Android
   m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.OpenXRSettings
   features:
-  - {fileID: -6353279847439774136}
-  - {fileID: -7435979559695172373}
-  - {fileID: 7855360874484460390}
-  - {fileID: 2785284769671707688}
-  - {fileID: -2949126015905432299}
-  - {fileID: 5766327329841626933}
-  - {fileID: -1929429701737537867}
-  - {fileID: -3152930805053843613}
-  - {fileID: -279282951996865544}
-  - {fileID: -1270723402064851347}
-  - {fileID: -1762030944398049824}
   - {fileID: -6830368780349541161}
-  - {fileID: 2595552602648241325}
-  - {fileID: 9076789137560825257}
-  - {fileID: -4506261367703210499}
-  - {fileID: -8707461881859129208}
-  - {fileID: 3876626212992176386}
-  - {fileID: -8976642401391727500}
   - {fileID: -7859632754097300180}
+  - {fileID: -2949126015905432299}
+  - {fileID: -1762030944398049824}
+  - {fileID: -279282951996865544}
+  - {fileID: 3876626212992176386}
+  - {fileID: 2595552602648241325}
+  - {fileID: -4506261367703210499}
+  - {fileID: 9076789137560825257}
+  - {fileID: 2785284769671707688}
+  - {fileID: -8976642401391727500}
+  - {fileID: -1270723402064851347}
+  - {fileID: -3152930805053843613}
+  - {fileID: 7855360874484460390}
+  - {fileID: -7435979559695172373}
+  - {fileID: -1929429701737537867}
+  - {fileID: 5766327329841626933}
+  - {fileID: -6353279847439774136}
+  - {fileID: -8707461881859129208}
   customLoaderName: 
   m_renderMode: 1
   m_latencyOptimization: 0
@@ -787,7 +839,7 @@ MonoBehaviour:
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegionSetting: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 0
   m_useOpenXRPredictedTime: 0
 --- !u!114 &3876626212992176386
