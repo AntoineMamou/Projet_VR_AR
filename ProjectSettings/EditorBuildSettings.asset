@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ConnectionTestScene.unity
     guid: d3b08ae77798a124d9b586e1ef402fb6
+  - enabled: 1
+    path: Assets/Scenes/Level_Design_0.unity
+    guid: f66eeb2eb28565749ba7665cb17c1626
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 058cd2bdc5bf0d040b52355d4ba0162e, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: fb61bac9bccb8fe419dd326d1f026353, type: 2}
