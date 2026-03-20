@@ -16,6 +16,6 @@ MonoBehaviour:
   - id: test_cube
     prefab: {fileID: 68297527420956480, guid: e2f1dfb99849fdb44b3047d61561fe47, type: 3}
     icon: {fileID: 21300000, guid: 17d565bb4a7744b41b7e4dc7e3a09e35, type: 3}
-  - id: test_cube_2
+  - id: test_cube2
     prefab: {fileID: 68297527420956480, guid: e2f1dfb99849fdb44b3047d61561fe47, type: 3}
-    icon: {fileID: 21300000, guid: 2f8349570a152884fb6cf7ebdc8c18b3, type: 3}
+    icon: {fileID: 21300000, guid: db3e7b7c8db355e499429545071a0321, type: 3}
