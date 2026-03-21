@@ -6,9 +6,13 @@ public class KeyModel
 
     public event Action OnKeyGrabbed;
 
+    public event Action OnKeyTouched;
+
     public void SetGrabbed()
     {
         IsGrabbed = true;
         OnKeyGrabbed?.Invoke();
     }
+
+    public void SetTouched() => OnKeyTouched?.Invoke();
 }
