@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
+[RequireComponent(typeof(Collider))]
 public class LevelGoalTrigger : MonoBehaviour
 {
     [SerializeField] private string _requiredTag = "Player";
@@ -9,6 +10,18 @@ public class LevelGoalTrigger : MonoBehaviour
     [SerializeField] private GameObject[] _deactivateOnComplete;
 
     private bool _hasCompleted;
+
+    private void Awake()
+    {
+        EnsureTriggerSetup();
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        EnsureTriggerSetup();
+    }
+#endif
 
     private void OnTriggerEnter(Collider other)
     {
@@ -55,6 +68,20 @@ public class LevelGoalTrigger : MonoBehaviour
             {
                 target.SetActive(isActive);
             }
+        }
+    }
+
+    private void EnsureTriggerSetup()
+    {
+        if (TryGetComponent(out Collider triggerCollider))
+        {
+            triggerCollider.isTrigger = true;
+        }
+
+        if (TryGetComponent(out Rigidbody attachedRigidbody))
+        {
+            attachedRigidbody.useGravity = false;
+            attachedRigidbody.isKinematic = true;
         }
     }
 }

@@ -19,6 +19,9 @@ public class VictoryPanelController : MonoBehaviour
     [SerializeField] private TMP_Text _timeValueText;
     [SerializeField] private TMP_Text _cubesValueText;
     [SerializeField] private TMP_Text _buzzersValueText;
+    [SerializeField] private string _timeTextFormat = "TEMPS : {0}";
+    [SerializeField] private string _cubesTextFormat = "CUBES UTILISES : {0}";
+    [SerializeField] private string _buzzersTextFormat = "BUZZERS TOUCHES : {0}";
 
     [Header("Stars")]
     [SerializeField] private Image[] _stars;
@@ -73,7 +76,7 @@ public class VictoryPanelController : MonoBehaviour
 
         if (_timeValueText != null)
         {
-            _timeValueText.text = FormatTime(result.ElapsedTime);
+            _timeValueText.text = string.Format(_timeTextFormat, FormatTime(result.ElapsedTime));
         }
         else
         {
@@ -82,7 +85,7 @@ public class VictoryPanelController : MonoBehaviour
 
         if (_cubesValueText != null)
         {
-            _cubesValueText.text = result.CubesUsed.ToString();
+            _cubesValueText.text = string.Format(_cubesTextFormat, result.CubesUsed);
         }
         else
         {
@@ -91,7 +94,7 @@ public class VictoryPanelController : MonoBehaviour
 
         if (_buzzersValueText != null)
         {
-            _buzzersValueText.text = result.BuzzersTouched.ToString();
+            _buzzersValueText.text = string.Format(_buzzersTextFormat, result.BuzzersTouched);
         }
         else
         {
@@ -134,6 +137,11 @@ public class VictoryPanelController : MonoBehaviour
 
     private int CalculateStars(LevelResultData result)
     {
+        if (result.BuzzersTouched <= 0)
+        {
+            return 0;
+        }
+
         int stars = 1;
 
         if (result.BuzzersTouched >= _requiredBuzzersTouched)

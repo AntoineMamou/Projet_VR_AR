@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -815,7 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -1969,7 +1969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -2566,7 +2566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -2756,7 +2756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -3230,7 +3230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
@@ -3475,10 +3475,13 @@ MonoBehaviour:
   _timeValueText: {fileID: 757342446}
   _cubesValueText: {fileID: 872748643}
   _buzzersValueText: {fileID: 718455742}
+  _timeTextFormat: 'TEMPS : {0}'
+  _cubesTextFormat: 'CUBES UTILISES : {0}'
+  _buzzersTextFormat: 'BUZZERS TOUCHES : {0}'
   _stars:
-  - {fileID: 1472571326}
-  - {fileID: 2084352136}
   - {fileID: 285337869}
+  - {fileID: 2084352136}
+  - {fileID: 1472571326}
   _filledStarSprite: {fileID: 21300000, guid: 3b51dc68bb5e0cb498e0ff237aa4a512, type: 3}
   _emptyStarSprite: {fileID: 21300000, guid: 63232a6227e4f8949a30135f13bdc9f4, type: 3}
   _threeStarTimeLimit: 45
@@ -3611,9 +3614,10 @@ GameObject:
   - component: {fileID: 1516444727}
   - component: {fileID: 1516444729}
   - component: {fileID: 1516444728}
+  - component: {fileID: 1516444730}
   m_Layer: 2
   m_Name: PlayerTrigger
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3683,6 +3687,21 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1516444730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516444726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a69dd413304f8cb2ec49e9f25563b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerTriggerFollower
+  _target: {fileID: 0}
+  _worldOffset: {x: 0, y: -0.5, z: 0}
+  _matchTargetYaw: 0
 --- !u!1 &1547883705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3742,12 +3761,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655487725}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a03cc664ef2af1043a6ba3f7dd7da254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelGoalTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _completeOnlyOnce: 1
   _activateOnComplete: []
   _deactivateOnComplete: []
@@ -3839,7 +3858,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.47, y: 1.06, z: 0.09}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3866,8 +3885,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4047,7 +4066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e47b0a5e6afaa74aa9e13d5bb473032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuzzerTrigger
-  _requiredTag: 
+  _requiredTag: Player
   _countOnlyOnce: 1
   _activateOnTouch: []
   _deactivateOnTouch:
