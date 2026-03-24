@@ -21,8 +21,6 @@ public class KeyCubeView : MonoBehaviour
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
-        // Crée une instance de matériau propre à ce cube pour éviter de modifier
-        // l'asset partagé.
         _renderer.material = new Material(_renderer.sharedMaterial);
         ApplyColor(false);
     }
@@ -34,12 +32,18 @@ public class KeyCubeView : MonoBehaviour
         ApplyColor(isInZone);
     }
 
+    /// <summary>Verrouille la position Z du cube pour contraindre le déplacement au plan XY.</summary>
+    public void ApplyZConstraint(float lockedZ)
+    {
+        Vector3 pos = transform.position;
+        transform.position = new Vector3(pos.x, pos.y, lockedZ);
+    }
+
     // ── Interne ────────────────────────────────────────────────────────────
     private void ApplyColor(bool isInZone)
     {
         Color target = isInZone ? _inZoneColor : _defaultColor;
 
-        // Compatible URP (_BaseColor) et Built-in (_Color).
         if (_renderer.material.HasProperty(BaseColorID))
             _renderer.material.SetColor(BaseColorID, target);
         else

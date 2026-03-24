@@ -32,12 +32,26 @@ public class KeyCubeController : MonoBehaviour
 
         _model.OnStateChanged         += OnModelStateChanged;
         _model.OnARControllingChanged += OnARControllingChanged;
+        _model.OnVRGrabChanged        += OnVRGrabChanged;
+
+        _grabInteractable.selectEntered.AddListener(OnGrabbed);
+        _grabInteractable.selectExited.AddListener(OnReleased);
     }
 
     private void OnDestroy()
     {
         _model.OnStateChanged         -= OnModelStateChanged;
         _model.OnARControllingChanged -= OnARControllingChanged;
+        _model.OnVRGrabChanged        -= OnVRGrabChanged;
+
+        _grabInteractable.selectEntered.RemoveListener(OnGrabbed);
+        _grabInteractable.selectExited.RemoveListener(OnReleased);
+    }
+
+    private void LateUpdate()
+    {
+        if (_model.IsGrabbedByVR)
+            _view.ApplyZConstraint(_model.LockedZ);
     }
 
     // ── API publique — Zone ────────────────────────────────────────────────
@@ -52,8 +66,8 @@ public class KeyCubeController : MonoBehaviour
     public void MoveAlongZ(float direction)
     {
         Debug.Log($"[KeyCube] MoveAlongZ appelé, direction={direction}, rb={_rb != null}");
-        Vector3 delta    = Vector3.forward * direction * _moveSpeed * Time.deltaTime;
-        Vector3 target   = _rb.position + delta;
+        Vector3 delta  = Vector3.forward * direction * _moveSpeed * Time.deltaTime;
+        Vector3 target = _rb.position + delta;
         _rb.MovePosition(target);
     }
 
@@ -65,6 +79,19 @@ public class KeyCubeController : MonoBehaviour
         _model.IsARControlling = isControlling;
     }
 
+    // ── Événements XR ─────────────────────────────────────────────────────
+    private void OnGrabbed(SelectEnterEventArgs args)
+    {
+        _model.SetLockedZ(transform.position.z);
+        _model.IsGrabbedByVR = true;
+    }
+
+    private void OnReleased(SelectExitEventArgs args)
+    {
+        _model.IsGrabbedByVR = false;
+        _view.ApplyZConstraint(_model.LockedZ);
+    }
+
     // ── Réactions au Model ─────────────────────────────────────────────────
     private void OnModelStateChanged(bool isInZone)
     {
@@ -73,8 +100,8 @@ public class KeyCubeController : MonoBehaviour
 
     private void OnARControllingChanged(bool isControlling)
     {
-        // Le joueur AR est prioritaire : on désactive le grab XRI pendant
-        // qu'il déplace le cube.
         _grabInteractable.enabled = !isControlling;
     }
+
+    private void OnVRGrabChanged(bool isGrabbed) { }
 }

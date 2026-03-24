@@ -10,7 +10,6 @@ public class KeyCubeModel
 {
     // ── État zone ──────────────────────────────────────────────────────────
     private bool _isInZone;
-
     public bool IsInZone
     {
         get => _isInZone;
@@ -24,7 +23,6 @@ public class KeyCubeModel
 
     // ── État contrôle AR ───────────────────────────────────────────────────
     private bool _isARControlling;
-
     public bool IsARControlling
     {
         get => _isARControlling;
@@ -36,7 +34,25 @@ public class KeyCubeModel
         }
     }
 
+    // ── État grab VR ───────────────────────────────────────────────────────
+    private bool _isGrabbedByVR;
+    public bool IsGrabbedByVR
+    {
+        get => _isGrabbedByVR;
+        set
+        {
+            if (_isGrabbedByVR == value) return;
+            _isGrabbedByVR = value;
+            OnVRGrabChanged?.Invoke(_isGrabbedByVR);
+        }
+    }
+
+    public float LockedZ { get; private set; }
+
+    public void SetLockedZ(float z) => LockedZ = z;
+
     // ── Événements ─────────────────────────────────────────────────────────
     public event Action<bool> OnStateChanged;
     public event Action<bool> OnARControllingChanged;
+    public event Action<bool> OnVRGrabChanged;
 }

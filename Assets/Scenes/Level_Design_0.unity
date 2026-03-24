@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &280940808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1630,6 +1630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin (XR Rig)
       objectReference: {fileID: 0}
+    - target: {fileID: 2237430407951797597, guid: 2ddb44aac74248445a5ef6a5567a678a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3994079035096863865, guid: 2ddb44aac74248445a5ef6a5567a678a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3207290427
@@ -1722,7 +1726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1446969197927648874, guid: 5327e4794cea378469b899ecf1ed7400, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7366396661075923734, guid: 5327e4794cea378469b899ecf1ed7400, type: 3}
       propertyPath: m_LocalPosition.x
