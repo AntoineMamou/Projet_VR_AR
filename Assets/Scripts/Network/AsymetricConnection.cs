@@ -1,43 +1,69 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class AsymmetricConnection : MonoBehaviour
 {
+    [Header("Configuration")]
+    [Tooltip("Scene configuration scriptable object")]
+    public SceneConfig sceneConfig;
 
-    public GameObject sharedPrefab;
+    [Header("World Spawning")]
+    [Tooltip("Reference to WorldSpawner component")]
+    public WorldSpawner worldSpawner;
+
     void Start()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        InitializeNetworking();
+    }
 
-        // Si on est dans la scène VR, on démarre en tant qu'Hôte (Serveur)
-        if (currentSceneName == "VrScene")
+    private void InitializeNetworking()
+    {
+        if (sceneConfig == null)
         {
-
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-
-            if (NetworkManager.Singleton.StartHost())
-            {
-                Debug.Log("VR: Serveur Hôte démarré avec succès !");
-                
-            }
-            else
-            {
-                Debug.LogError("VR: Échec du démarrage du Serveur.");
-            }
+            Debug.LogError("[RESEAU] SceneConfig non assignÃ© !");
+            return;
         }
-        // Si on est dans la scène AR, on démarre en tant que Client
-        else if (currentSceneName == "ArScene")
+
+        // Si on est dans la scene VR, on demarre en tant qu'HÃ´te (Serveur)
+        if (sceneConfig.IsVRScene())
         {
-            if (NetworkManager.Singleton.StartClient())
-            {
-                Debug.Log("AR: Tentative de connexion au Serveur VR...");
-            }
-            else
-            {
-                Debug.LogError("AR: Impossible de démarrer le Client.");
-            }
+            StartAsHost();
+        }
+        // Si on est dans la scene AR, on demarre en tant que Client
+        else if (sceneConfig.IsARScene())
+        {
+            StartAsClient();
+        }
+        else
+        {
+            Debug.LogWarning($"[RESEAU] Scene actuelle '{sceneConfig.GetCurrentSceneName()}' ne correspond ni Ã  AR ni Ã  VR");
+        }
+    }
+
+    private void StartAsHost()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+        if (NetworkManager.Singleton.StartHost())
+        {
+            Debug.Log("[RESEAU] VR: Serveur Hote demarre avec succes !");
+        }
+        else
+        {
+            Debug.LogError("[RESEAU] VR: echec du demarrage du Serveur.");
+        }
+    }
+
+    private void StartAsClient()
+    {
+        if (NetworkManager.Singleton.StartClient())
+        {
+            Debug.Log("[RESEAU] AR: Tentative de connexion au Serveur VR...");
+        }
+        else
+        {
+            Debug.LogError("[RESEAU] AR: Impossible de demarrer le Client.");
         }
     }
 
@@ -45,30 +71,29 @@ public class AsymmetricConnection : MonoBehaviour
     {
         if (clientId != NetworkManager.Singleton.LocalClientId)
         {
-            SpawnSharedObject();
+            Debug.Log($"[RESEAU] Client connectÃ©: {clientId}");
+
+            // Start spawning objects when client connects
+            if (worldSpawner != null)
+            {
+                worldSpawner.StartSpawning();
+            }
+            else
+            {
+                Debug.LogWarning("[RESEAU] RÃ©fÃ©rence WorldSpawner est null !");
+            }
         }
         else
         {
-            Debug.Log("[RESEAU] C'est juste moi (le Serveur) qui m'initialise.");
+            Debug.Log("[RESEAU] Initialisation du serveur local terminÃ©e.");
         }
     }
 
-    void SpawnSharedObject()
+    private void OnDestroy()
     {
-        if (sharedPrefab != null)
+        if (NetworkManager.Singleton != null)
         {
-            Debug.Log("[SPAWN] Instanciation du cube dans la scène VR");
-            GameObject spawnedObject = Instantiate(sharedPrefab, new Vector3(1, 0, 0), Quaternion.identity);
-
-            Debug.Log("[SPAWN] Synchronisation du cube sur le réseau pour l'AR");
-            spawnedObject.GetComponent<NetworkObject>().Spawn();
-
-            Debug.Log("[SPAWN] Succès");
-        }
-        else
-        {
-            Debug.LogError("[SPAWN ERROR] Le Prefab n'est pas assigné dans l'inspecteur");
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         }
     }
-
 }

@@ -33,9 +33,9 @@ public class UIPlacableManager : MonoBehaviour
     {
         _selectedPlacableID = (_selectedPlacableID == id) ? "" : id;
 
-        if (AppBootstrapper.TouchController != null)
+        if (AppBootstrapper.InstanceTouchController != null)
         {
-            AppBootstrapper.TouchController.SelectItem(_selectedPlacableID);
+            AppBootstrapper.InstanceTouchController.SelectItem(_selectedPlacableID);
             UpdateVisualSelection();
         }
         else

@@ -49,7 +49,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 4461895405697340610}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 1731218769716620983, guid: 65fdd654af67ec242a5972aa4dcadd51, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 93f64e4de05a8ed48a108196134850f0, type: 2}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 192.168.72.245
+    Address: 10.182.164.18
     Port: 7777
     ServerListenAddress: 0.0.0.0
     ClientBindPort: 0
