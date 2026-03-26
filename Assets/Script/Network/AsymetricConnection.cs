@@ -1,74 +1,102 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class AsymmetricConnection : MonoBehaviour
 {
-
     public GameObject sharedPrefab;
-    void Start()
+
+    IEnumerator Start()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
 
-        // Si on est dans la scËne VR, on dÈmarre en tant qu'HÙte (Serveur)
-        if (currentSceneName == "VrScene")
+        Debug.Log("[INIT] Scene: " + currentSceneName);
+
+        // üîµ TELEPHONE = HOST
+        if (currentSceneName == "ArScene")
         {
+            Debug.Log("[HOST] D√©marrage du Host...");
 
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
 
             if (NetworkManager.Singleton.StartHost())
-            {
-                Debug.Log("VR: Serveur HÙte dÈmarrÈ avec succËs !");
-                
-            }
+                Debug.Log("[HOST] Host d√©marr√© !");
             else
-            {
-                Debug.LogError("VR: …chec du dÈmarrage du Serveur.");
-            }
+                Debug.LogError("[HOST] √âchec du Host !");
         }
-        // Si on est dans la scËne AR, on dÈmarre en tant que Client
-        else if (currentSceneName == "ArScene")
+
+        // üü£ CASQUE = CLIENT
+        else if (currentSceneName == "VrScene")
         {
+            Debug.Log("[CLIENT] Attente avant connexion...");
+
+            // üî• IMPORTANT : laisse le temps au host de d√©marrer
+            yield return new WaitForSeconds(2f);
+
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+
             if (NetworkManager.Singleton.StartClient())
-            {
-                Debug.Log("AR: Tentative de connexion au Serveur VR...");
-            }
+                Debug.Log("[CLIENT] Tentative de connexion...");
             else
-            {
-                Debug.LogError("AR: Impossible de dÈmarrer le Client.");
-            }
+                Debug.LogError("[CLIENT] √âchec du StartClient !");
         }
     }
 
+    // ‚úÖ Quand un client se connecte
     private void OnClientConnected(ulong clientId)
     {
-        if (clientId != NetworkManager.Singleton.LocalClientId)
+        Debug.Log("[RESEAU] Client connect√©: " + clientId);
+
+        // Ignore la connexion locale du host
+        if (NetworkManager.Singleton.IsHost &&
+            clientId == NetworkManager.Singleton.LocalClientId)
         {
-            SpawnSharedObject();
+            Debug.Log("[HOST] Initialisation locale");
+            return;
         }
-        else
+
+        // Seulement le host ex√©cute √ßa
+        if (NetworkManager.Singleton.IsHost)
         {
-            Debug.Log("[RESEAU] C'est juste moi (le Serveur) qui m'initialise.");
+            Debug.Log("[HOST] Client distant connect√© ‚Üí spawn + changement de sc√®ne");
+
+            SpawnSharedObject();
+
+            NetworkManager.Singleton.SceneManager.LoadScene(
+                "Level_Design_0",
+                LoadSceneMode.Single
+            );
         }
     }
 
+    // ‚ùå Si d√©connexion
+    private void OnClientDisconnected(ulong clientId)
+    {
+        Debug.LogWarning("[RESEAU] Client d√©connect√©: " + clientId);
+    }
+
+    // üì¶ Spawn objet r√©seau
     void SpawnSharedObject()
     {
-        if (sharedPrefab != null)
+        if (sharedPrefab == null)
         {
-            Debug.Log("[SPAWN] Instanciation du cube dans la scËne VR");
-            GameObject spawnedObject = Instantiate(sharedPrefab, new Vector3(0, 0, 1), Quaternion.identity);
-
-            Debug.Log("[SPAWN] Synchronisation du cube sur le rÈseau pour l'AR");
-            spawnedObject.GetComponent<NetworkObject>().Spawn();
-
-            Debug.Log("[SPAWN] SuccËs");
+            Debug.LogError("[SPAWN ERROR] Prefab non assign√© !");
+            return;
         }
-        else
+
+        GameObject obj = Instantiate(sharedPrefab, new Vector3(0, 0, 1), Quaternion.identity);
+
+        if (!obj.TryGetComponent<NetworkObject>(out var netObj))
         {
-            Debug.LogError("[SPAWN ERROR] Le Prefab n'est pas assignÈ dans l'inspecteur");
+            Debug.LogError("[SPAWN ERROR] Pas de NetworkObject sur le prefab !");
+            return;
         }
+
+        netObj.Spawn();
+
+        Debug.Log("[SPAWN] Objet r√©seau spawn avec succ√®s !");
     }
-
 }
