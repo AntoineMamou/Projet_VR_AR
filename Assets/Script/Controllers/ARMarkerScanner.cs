@@ -12,6 +12,8 @@ public class ARMarkerScanner : MonoBehaviour
     public Quaternion markerARRotation;
     public bool isMarkerFound = false;
 
+    public Transform activeMarkerTransform;
+
     private void Awake()
     {
         imageManager = GetComponent<ARTrackedImageManager>();
@@ -49,6 +51,8 @@ public class ARMarkerScanner : MonoBehaviour
         markerARPosition = trackedImage.transform.position;
         markerARRotation = trackedImage.transform.rotation;
         isMarkerFound = true;
+
+        activeMarkerTransform = trackedImage.transform;
 
         Debug.Log($"[CALIBRATION AR] Marqueur détecté à la position : {markerARPosition}");
     }

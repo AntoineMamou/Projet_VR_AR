@@ -4,56 +4,73 @@ using Unity.XR.CoreUtils;
 
 public class ARColocationManager : MonoBehaviour
 {
-    [Header("Références (À glisser dans l'inspecteur)")]
+    [Header("Références")]
     public XROrigin xrOrigin;
     public ARMarkerScanner arScanner;
 
+    [Header("Paramètres de stabilisation")]
+    public float tempsStabilisation = 2.5f;
+    private float chrono = 0f;
     private bool estAligne = false;
+
+    // L'objet fantôme qui servira de "referencePose" (La vérité terrain de la VR)
+    private Transform referencePoseFantomeVR;
 
     private void Update()
     {
-        // 1. Si on est déjà aligné, on ne fait plus rien
+        // --- CORRECTIF ANTI-RANDOM ---
+        // Si on est déjà aligné, on ne rentre plus JAMAIS dans la logique
         if (estAligne) return;
 
-        // 2. Vérifier si le casque VR a envoyé ses coordonnées sur le réseau
+        // 1. VR Prête ?
         VRCalibrationAnchor vrAnchor = FindAnyObjectByType<VRCalibrationAnchor>();
-        if (vrAnchor == null || !vrAnchor.isCalibrated.Value)
+        if (vrAnchor == null || !vrAnchor.isCalibrated.Value) return;
+
+        // 2. AR Prête et STABLE ?
+        if (arScanner == null || !arScanner.isMarkerFound || arScanner.activeMarkerTransform == null)
         {
-            return; // On attend que le joueur VR appuie sur son bouton
+            chrono = 0f; // Reset timer
+            return;
         }
 
-        // 3. Vérifier si le téléphone AR a trouvé le marqueur physique
-        if (arScanner == null || !arScanner.isMarkerFound)
+        // On attend la stabilisation de la profondeur AR
+        chrono += Time.deltaTime;
+        if (chrono >= tempsStabilisation)
         {
-            return; // On attend que la caméra du téléphone croise l'image
+            ExecuterCalibrationOfficielle(vrAnchor);
         }
-
-        // --- SI ON EST ICI, LES DEUX CONDITIONS SONT REMPLIES ---
-        ExecuterAlignementAutomatique(vrAnchor);
     }
 
-    private void ExecuterAlignementAutomatique(VRCalibrationAnchor vrAnchor)
+    private void ExecuterCalibrationOfficielle(VRCalibrationAnchor vrAnchor)
     {
-        Debug.Log("[COLOC] Conditions remplies ! Lancement du Snap...");
+        Debug.Log("[COLOC] Stabilisation terminée, appel du script de Calibration !");
 
-        // A. Ce que veut la VR (La cible absolue)
-        Vector3 ciblePosition = vrAnchor.vrAnchorPosition.Value;
-        float cibleRotationY = vrAnchor.vrAnchorRotation.Value.eulerAngles.y;
+        // 1. CRÉATION DU FANTÔME VR (Le referencePose)
+        if (referencePoseFantomeVR == null)
+        {
+            referencePoseFantomeVR = new GameObject("VRPose_GroundTruth").transform;
+        }
+        // On lui donne les coordonnées reçues par le réseau
+        referencePoseFantomeVR.position = vrAnchor.vrAnchorPosition.Value;
+        referencePoseFantomeVR.rotation = vrAnchor.vrAnchorRotation.Value;
 
-        // B. Ce que voit l'AR (La position actuelle du marqueur)
-        Vector3 positionActuelle = arScanner.markerARPosition;
-        float rotationActuelleY = arScanner.markerARRotation.eulerAngles.y;
 
-        // C. ÉTAPE 1 : Aligner les rotations (On pivote le XR Origin autour du marqueur)
-        float differenceAngle = cibleRotationY - rotationActuelleY;
-        xrOrigin.transform.RotateAround(positionActuelle, Vector3.up, differenceAngle);
+        // 2. PRÉPARATION DES VARIABLES POUR LE SCRIPT FOURNI
+        // ObjectToCalibrate : L'objet global qu'on veut déplacer (Le monde AR)
+        Transform objectToCalibrate = xrOrigin.transform;
 
-        // D. ÉTAPE 2 : Aligner les positions (On glisse le XR Origin pour superposer les points)
-        Vector3 differencePosition = ciblePosition - positionActuelle;
-        xrOrigin.transform.position += differencePosition;
+        // PoseToAlign : L'élément dans le monde AR qui doit s'aligner (Le marqueur)
+        Transform poseToAlign = arScanner.activeMarkerTransform;
 
-        // E. On verrouille le système !
+        // ReferencePose : L'endroit où il doit aller (Le fantôme VR)
+        Transform referencePose = referencePoseFantomeVR;
+
+
+        // 3. LE COUP DE MAGIE OFFICIEL
+
+        Calibration.Calibrate(objectToCalibrate, poseToAlign, referencePose);
+
         estAligne = true;
-        Debug.Log("[COLOC] SUCCÈS : Les mondes VR et AR sont parfaitement fusionnés et verrouillés !");
+        Debug.Log("[COLOC] SUCCÈS : Les mondes sont parfaitement alignés avec la nouvelle méthode !");
     }
 }

@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 14250662784055017120
       m_GuidHigh: 2018983302033733273
-    m_Size: {x: 0.08982036, y: 0.060000002}
+    m_Size: {x: 0.077, y: 0.051436}
     m_SpecifySize: 1
     m_Name: campus-nantes
     m_Texture: {fileID: 0}

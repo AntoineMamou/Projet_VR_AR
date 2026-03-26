@@ -58,7 +58,7 @@ public class AsymmetricConnection : MonoBehaviour
         if (sharedPrefab != null)
         {
             Debug.Log("[SPAWN] Instanciation du cube dans la scène VR");
-            GameObject spawnedObject = Instantiate(sharedPrefab, new Vector3(1, 0, 0), Quaternion.identity);
+            GameObject spawnedObject = Instantiate(sharedPrefab, new Vector3(0, 0, 1), Quaternion.identity);
 
             Debug.Log("[SPAWN] Synchronisation du cube sur le réseau pour l'AR");
             spawnedObject.GetComponent<NetworkObject>().Spawn();

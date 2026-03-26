@@ -10,10 +10,7 @@ public class VRCalibrationAnchor : NetworkBehaviour
    //XRI Right Interaction/Select
     public InputActionReference calibrateButton;
 
-    // --- VARIABLES RÉSEAU (Synchronisées automatiquement vers l'AR) ---
-    // ReadPermission.Everyone = L'AR peut les lire.
-    // WritePermission.Server = Seul le casque VR peut les modifier.
-
+    //VARIABLES RÉSEAU
     public NetworkVariable<Vector3> vrAnchorPosition = new NetworkVariable<Vector3>(
         default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -25,7 +22,6 @@ public class VRCalibrationAnchor : NetworkBehaviour
 
     private GameObject repereVisuelVR;
 
-    // Activer l'écoute du bouton
     private void OnEnable()
     {
         if (calibrateButton != null)
@@ -35,7 +31,6 @@ public class VRCalibrationAnchor : NetworkBehaviour
         }
     }
 
-    // Désactiver l'écoute
     private void OnDisable()
     {
         if (calibrateButton != null)
@@ -45,7 +40,6 @@ public class VRCalibrationAnchor : NetworkBehaviour
         }
     }
 
-    // Fonction appelée quand le joueur appuie sur le bouton
     private void OnCalibratePressed(InputAction.CallbackContext context)
     {
         //Seul le Serveur (le casque VR) a le droit de définir l'ancrage
@@ -68,13 +62,8 @@ public class VRCalibrationAnchor : NetworkBehaviour
 
             if (repereVisuelVR == null)
             {
-                // On crée un petit cube
                 repereVisuelVR = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-                // On l'aplatit pour qu'il ressemble à un marqueur au sol (10cm x 1cm x 10cm)
                 repereVisuelVR.transform.localScale = new Vector3(0.1f, 0.01f, 0.1f);
-
-                // On le peint en vert fluo
                 repereVisuelVR.GetComponent<Renderer>().material.color = Color.green;
             }
 
