@@ -20,13 +20,24 @@ public class PlayerAvatar : NetworkBehaviour // Attention, héritage de NetworkBe
 
     void Update()
     {
-        // Si c'est mon avatar, je force ma capsule à suivre MA caméra
-        if (IsOwner && cameraLocale != null)
-        {
-            transform.position = cameraLocale.position;
+        // Si cette capsule ne m'appartient pas, je ne fais rien
+        if (!IsOwner) return;
 
-            // Optionnel : on copie aussi la rotation pour voir où le joueur regarde
-            transform.rotation = cameraLocale.rotation;
+        // 1. RECHERCHE DE LA CAMÉRA (Si on ne l'a pas encore trouvée)
+        if (cameraLocale == null)
+        {
+            if (Camera.main != null)
+            {
+                cameraLocale = Camera.main.transform;
+                Debug.Log("[AVATAR] Caméra locale trouvée et assignée !");
+            }
+            return; // On arrête l'Update ici pour cette frame en attendant de la trouver
         }
+
+        // 2. SUIVI DE LA CAMÉRA (Une fois trouvée)
+        transform.position = cameraLocale.position;
+
+        // Optionnel : on copie aussi la rotation (Attention, en AR le téléphone regarde souvent un peu vers le bas)
+        transform.rotation = cameraLocale.rotation;
     }
 }
