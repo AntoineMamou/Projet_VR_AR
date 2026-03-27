@@ -111,3 +111,6 @@ InitTestScene*.unity*
 
 # Unity Burst Debug folders
 *_BurstDebugInformation_DoNotShip
+
+# Local build asset too large for regular GitHub push
+/Star_Test/Project_VR_AR_Data/sharedassets0.assets.resS
