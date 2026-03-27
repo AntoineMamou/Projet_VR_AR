@@ -564,8 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f6d3c21769f87468e0d596a60e4163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricConnection
-  vrPlayerPrefab: {fileID: 0}
-  arPlayerPrefab: {fileID: 0}
+  sharedPrefab: {fileID: 0}
 --- !u!4 &596438868
 Transform:
   m_ObjectHideFlags: 0
@@ -631,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4461895405697340610, guid: 4087c8ec7bdc3e2438ba166f33f1c045, type: 3}
       propertyPath: ConnectionData.Address
-      value: 192.168.1.25
+      value: 192.168.35.245
       objectReference: {fileID: 0}
     - target: {fileID: 4461895405697340610, guid: 4087c8ec7bdc3e2438ba166f33f1c045, type: 3}
       propertyPath: ConnectionData.ServerListenAddress
@@ -714,8 +713,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4187820646412841165, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5158491294752105693}
   m_SourcePrefab: {fileID: 100100000, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
+--- !u!1 &5158491294752105692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4187820646412841165, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
+  m_PrefabInstance: {fileID: 5158491294752105691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5158491294752105693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158491294752105692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

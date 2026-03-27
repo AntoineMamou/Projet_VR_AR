@@ -119,6 +119,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &38345453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5707522155483368188, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
+  m_PrefabInstance: {fileID: 8343324500725075800}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &38345457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38345453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
 --- !u!1 &97379253
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,8 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f6d3c21769f87468e0d596a60e4163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricConnection
-  vrPlayerPrefab: {fileID: 4187820646412841165, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
-  arPlayerPrefab: {fileID: 8025138232225062811, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
+  sharedPrefab: {fileID: 1446969197927648874, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
 --- !u!4 &239079545
 Transform:
   m_ObjectHideFlags: 0
@@ -2062,7 +2078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4461895405697340610, guid: 4087c8ec7bdc3e2438ba166f33f1c045, type: 3}
       propertyPath: ConnectionData.Address
-      value: 192.168.1.183
+      value: 192.168.35.245
       objectReference: {fileID: 0}
     - target: {fileID: 4461895405697340610, guid: 4087c8ec7bdc3e2438ba166f33f1c045, type: 3}
       propertyPath: ConnectionData.ServerListenAddress
@@ -2395,6 +2411,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614920650}
   m_CullTransparentMesh: 1
+--- !u!1 &1644114699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8025138232225062811, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
+  m_PrefabInstance: {fileID: 8343324500725075800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1649765832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2558,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6718518718660982678, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
   m_PrefabInstance: {fileID: 8343324500725075800}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1644114699}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0cb9aa70a22847b5925ee5f067c10a9, type: 3}
@@ -2548,12 +2569,24 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8480976611353440466, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
   m_PrefabInstance: {fileID: 8343324500725075800}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1644114699}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 593619c44bc0bc546b55d6e43ca5aadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ARMarkerScanner
+--- !u!114 &1657419322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644114699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
 --- !u!1 &1705815721
 GameObject:
   m_ObjectHideFlags: 0
@@ -3207,7 +3240,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8025138232225062811, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657419322}
+    - targetCorrespondingSourceObject: {fileID: 5707522155483368188, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 38345457}
   m_SourcePrefab: {fileID: 100100000, guid: b5ab70d813c1f704586195c74d98413a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
