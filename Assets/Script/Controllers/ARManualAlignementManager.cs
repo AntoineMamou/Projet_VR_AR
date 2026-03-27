@@ -8,16 +8,16 @@ public class ARManualAlignmentManager : MonoBehaviour
     public GameObject canvasAlignement;
 
     [Header("Paramètres (Sensibilité)")]
-    public float distanceParClic = 0.05f; // 5 centimètres par clic
-    public float angleParClic = 2.0f;     // 2 degrés par clic
+    public float distanceParClic = 0.05f; 
+    public float angleParClic = 2.0f;  
 
 
-    // --- DÉPLACEMENTS (On déplace l'origine dans le sens inverse pour bouger le monde) ---
+
     public void ValiderAlignement()
     {
         if (canvasAlignement != null)
         {
-            canvasAlignement.SetActive(false); // Désactive tout le Canvas (les boutons disparaissent)
+            canvasAlignement.SetActive(false);
             Debug.Log("[COLOC MANUELLE] Alignement validé, interface masquée !");
         }
     }
@@ -60,7 +60,6 @@ public class ARManualAlignmentManager : MonoBehaviour
         xrOrigin.transform.position += Vector3.up * distanceParClic;
     }
 
-    // --- ROTATIONS (On tourne autour de la tête du joueur pour que ce soit naturel) ---
 
     public void TournerMondeGauche()
     {
