@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,85 +7,131 @@ public class AsymmetricConnection : MonoBehaviour
 {
     public GameObject sharedPrefab;
 
-    void Start()
+    private void Start()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
         Debug.Log("[INIT] Scene: " + currentSceneName);
 
-        //casque = HOST
+        if (NetworkManager.Singleton == null)
+        {
+            Debug.LogError("[INIT] NetworkManager.Singleton missing.");
+            return;
+        }
+
         if (currentSceneName == "VrScene")
         {
-            Debug.Log("[HOST] Démarrage du Host...");
+            Debug.Log("[HOST] Starting host...");
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
 
             if (NetworkManager.Singleton.StartHost())
-                Debug.Log("[HOST] Host démarré !");
+            {
+                Debug.Log("[HOST] Host started.");
+            }
             else
-                Debug.LogError("[HOST] Échec du Host !");
+            {
+                Debug.LogError("[HOST] StartHost failed.");
+            }
         }
-        //tel = CLIENT
         else if (currentSceneName == "ArScene")
         {
-            Debug.Log("[CLIENT] Attente avant connexion...");
+            Debug.Log("[CLIENT] Starting client...");
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
 
             if (NetworkManager.Singleton.StartClient())
-                Debug.Log("[CLIENT] Tentative de connexion...");
+            {
+                Debug.Log("[CLIENT] Connection attempt started.");
+            }
             else
-                Debug.LogError("[CLIENT] Échec du StartClient !");
+            {
+                Debug.LogError("[CLIENT] StartClient failed.");
+            }
         }
     }
 
     private void OnClientConnected(ulong clientId)
     {
-        Debug.Log("[RESEAU] Client connecté: " + clientId);
+        Debug.Log("[NETWORK] Client connected: " + clientId);
 
         if (NetworkManager.Singleton.IsHost && clientId == NetworkManager.Singleton.LocalClientId)
         {
-            Debug.Log("[HOST] Initialisation locale");
+            Debug.Log("[HOST] Local host client initialized.");
             return;
         }
 
-        // Seulement le host décide de changer de scène
         if (NetworkManager.Singleton.IsHost)
         {
-            Debug.Log("[HOST] Client distant connecté → Lancement du niveau !");
+            Debug.Log("[HOST] Remote client connected, loading Level_Design_0.");
 
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoad += OnSceneLoadStarted;
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoadComplete;
 
-            NetworkManager.Singleton.SceneManager.LoadScene("Level_Design_0", LoadSceneMode.Single);
+            SceneEventProgressStatus loadStatus =
+                NetworkManager.Singleton.SceneManager.LoadScene("Level_Design_0", LoadSceneMode.Single);
+
+            Debug.Log("[HOST] LoadScene(Level_Design_0) status: " + loadStatus);
         }
     }
 
-    // Déclenché uniquement quand tout le monde est arrivé dans la nouvelle scène
-    private void OnSceneLoaded(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, System.Collections.Generic.List<ulong> clientsCompleted, System.Collections.Generic.List<ulong> clientsTimedOut)
+    private void OnSceneLoadStarted(
+        ulong clientId,
+        string sceneName,
+        LoadSceneMode loadSceneMode,
+        AsyncOperation asyncOperation)
     {
+        Debug.Log($"[SCENE] Load start '{sceneName}' for client {clientId} ({loadSceneMode})");
+    }
+
+    private void OnSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        Debug.Log($"[SCENE] Load complete '{sceneName}' for client {clientId} ({loadSceneMode})");
+    }
+
+    private void OnSceneLoaded(
+        string sceneName,
+        LoadSceneMode loadSceneMode,
+        List<ulong> clientsCompleted,
+        List<ulong> clientsTimedOut)
+    {
+        Debug.Log(
+            $"[SCENE] OnLoadEventCompleted '{sceneName}' complete={clientsCompleted.Count} timeout={clientsTimedOut.Count}");
+
         if (sceneName == "Level_Design_0" && NetworkManager.Singleton.IsHost)
         {
-            Debug.Log("[HOST] Niveau chargé ! Apparition des objets...");
+            Debug.Log("[HOST] Level loaded, spawning shared objects.");
             SpawnSharedObject();
 
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoad -= OnSceneLoadStarted;
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoadComplete;
         }
     }
 
     private void OnClientDisconnected(ulong clientId)
     {
-        Debug.LogWarning("[RESEAU] Client déconnecté: " + clientId);
+        Debug.LogWarning("[NETWORK] Client disconnected: " + clientId);
     }
 
-    void SpawnSharedObject()
+    private void SpawnSharedObject()
     {
-        if (sharedPrefab == null) return;
+        if (sharedPrefab == null)
+        {
+            Debug.Log("[SPAWN] sharedPrefab is null, nothing to spawn.");
+            return;
+        }
 
         GameObject obj = Instantiate(sharedPrefab, new Vector3(0, 0, 1), Quaternion.identity);
 
         if (obj.TryGetComponent<NetworkObject>(out var netObj))
         {
             netObj.Spawn();
-            Debug.Log("[SPAWN] Objet réseau spawn avec succès !");
+            Debug.Log("[SPAWN] Network object spawned successfully.");
+        }
+        else
+        {
+            Debug.LogWarning("[SPAWN] sharedPrefab has no NetworkObject.");
         }
     }
 }

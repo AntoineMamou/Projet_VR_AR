@@ -9,7 +9,6 @@ public class ARKeyController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("[ARKey] Awake : Clé initialisée, en attente de touché");
         _model = new KeyModel();
         EnhancedTouchSupport.Enable();
     }
@@ -26,35 +25,42 @@ public class ARKeyController : MonoBehaviour
 
     private void Update()
     {
-        var touches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+        if (LevelRunStats.AreInteractionsLocked)
+        {
+            return;
+        }
 
-        if (touches.Count == 0) return;
+        var touches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+        if (touches.Count == 0)
+        {
+            return;
+        }
 
         var touch = touches[0];
-        if (touch.phase != UnityEngine.InputSystem.TouchPhase.Began) return;
-
-        Debug.Log("[ARKey] Touch détecté à : " + touch.screenPosition);
+        if (touch.phase != UnityEngine.InputSystem.TouchPhase.Began)
+        {
+            return;
+        }
 
         Ray ray = Camera.main.ScreenPointToRay(touch.screenPosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (!Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("[ARKey] Raycast touche : " + hit.collider.gameObject.name);
-
-            if (hit.collider.gameObject == gameObject)
-            {
-                Debug.Log("[ARKey] ✓ Clé touchée !");
-                _model.SetTouched();
-            }
+            return;
         }
-        else
+
+        if (hit.collider.gameObject == gameObject)
         {
-            Debug.Log("[ARKey] ✗ Raycast ne touche rien");
+            _model.SetTouched();
         }
     }
 
     private void HandleKeyTouched()
     {
-        revealView.ShowObject();
+        if (revealView != null)
+        {
+            revealView.ShowObject();
+        }
+
+        LevelRunStats.Instance?.RegisterRedKeyActivated();
     }
 }

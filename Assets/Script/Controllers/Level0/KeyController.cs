@@ -1,16 +1,19 @@
-using UnityEngine ;
+using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+
 public class KeyController : MonoBehaviour
 {
     [SerializeField] private RevealObjectView revealView;
+    [SerializeField] private bool _completeLevelOnGrab;
 
     private KeyModel _model;
-    private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable _grabInteractable;
+    private XRGrabInteractable _grabInteractable;
 
     private void Awake()
     {
         _model = new KeyModel();
-        _grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+        _grabInteractable = GetComponent<XRGrabInteractable>();
     }
 
     private void OnEnable()
@@ -27,11 +30,24 @@ public class KeyController : MonoBehaviour
 
     private void OnKeyGrabbed(SelectEnterEventArgs args)
     {
+        if (LevelRunStats.AreInteractionsLocked)
+        {
+            return;
+        }
+
         _model.SetGrabbed();
     }
 
     private void HandleKeyGrabbed()
     {
-        revealView.ShowObject();
+        if (revealView != null)
+        {
+            revealView.ShowObject();
+        }
+
+        if (_completeLevelOnGrab)
+        {
+            LevelRunStats.Instance?.RegisterGreenKeyActivatedAndComplete();
+        }
     }
 }
