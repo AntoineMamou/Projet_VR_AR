@@ -359,7 +359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &314986727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +726,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1815969160056495370, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+      propertyPath: m_RequestedTrackingOriginMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1994301137648056597, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -736,7 +740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalPosition.z
@@ -744,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalRotation.x
@@ -752,7 +756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalRotation.z
@@ -764,7 +768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -773,6 +777,10 @@ PrefabInstance:
     - target: {fileID: 2237430407951797597, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237430407951797597, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3994079035096863865, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_Enabled
@@ -788,7 +796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4122216586070600442, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5304173942884240542, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       propertyPath: m_JumpHeight
