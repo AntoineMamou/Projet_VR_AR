@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using Unity.Netcode;
 
 /// <summary>
 /// MVC — Controller
@@ -10,29 +11,32 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(KeyCubeView))]
 [RequireComponent(typeof(XRGrabInteractable))]
 [RequireComponent(typeof(Rigidbody))]
-public class KeyCubeController : MonoBehaviour
+public class KeyCubeController : NetworkBehaviour
 {
-    // ── Sérialisation ──────────────────────────────────────────────────────
     [Header("Déplacement AR")]
     [SerializeField] private float _moveSpeed = 3f;
 
-    // ── Références ─────────────────────────────────────────────────────────
-    private KeyCubeModel       _model;
-    private KeyCubeView        _view;
+    private KeyCubeModel _model;
+    private KeyCubeView _view;
     private XRGrabInteractable _grabInteractable;
-    private Rigidbody          _rb;
+    private Rigidbody _rb;
 
-    // ── Cycle Unity ────────────────────────────────────────────────────────
+    private float _lockedZForVR;
+    private float _lockedYForVR;
+
+    private float _arMoveDirection = 0f;
+    private float _lastSentDirection = -999f; // Filtre anti-spam
+
     private void Awake()
     {
-        _model            = new KeyCubeModel();
-        _view             = GetComponent<KeyCubeView>();
+        _model = new KeyCubeModel();
+        _view = GetComponent<KeyCubeView>();
         _grabInteractable = GetComponent<XRGrabInteractable>();
-        _rb               = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
 
-        _model.OnStateChanged         += OnModelStateChanged;
+        _model.OnStateChanged += OnModelStateChanged;
         _model.OnARControllingChanged += OnARControllingChanged;
-        _model.OnVRGrabChanged        += OnVRGrabChanged;
+        _model.OnVRGrabChanged += OnVRGrabChanged;
 
         _grabInteractable.selectEntered.AddListener(OnGrabbed);
         _grabInteractable.selectExited.AddListener(OnReleased);
@@ -40,9 +44,9 @@ public class KeyCubeController : MonoBehaviour
 
     private void OnDestroy()
     {
-        _model.OnStateChanged         -= OnModelStateChanged;
+        _model.OnStateChanged -= OnModelStateChanged;
         _model.OnARControllingChanged -= OnARControllingChanged;
-        _model.OnVRGrabChanged        -= OnVRGrabChanged;
+        _model.OnVRGrabChanged -= OnVRGrabChanged;
 
         _grabInteractable.selectEntered.RemoveListener(OnGrabbed);
         _grabInteractable.selectExited.RemoveListener(OnReleased);
@@ -51,48 +55,86 @@ public class KeyCubeController : MonoBehaviour
     private void LateUpdate()
     {
         if (_model.IsGrabbedByVR)
-            _view.ApplyZConstraint(_model.LockedZ);
+        {
+            transform.position = new Vector3(transform.position.x, _lockedYForVR, _lockedZForVR);
+            transform.rotation = Quaternion.identity;
+        }
     }
 
-    // ── API publique — Zone ────────────────────────────────────────────────
-    public void EnterZone() => _model.IsInZone = true;
-    public void ExitZone()  => _model.IsInZone = false;
+    private void FixedUpdate()
+    {
+        if (IsServer && !_model.IsGrabbedByVR)
+        {
+            if (_arMoveDirection != 0f)
+            {
+                Vector3 delta = Vector3.forward * _arMoveDirection * _moveSpeed * Time.fixedDeltaTime;
+                _rb.MovePosition(_rb.position + delta);
+            }
+            else
+            {
+                _rb.linearVelocity = Vector3.zero;
+                _rb.angularVelocity = Vector3.zero;
+            }
+        }
+    }
 
-    // ── API publique — AR ──────────────────────────────────────────────────
-    /// <summary>
-    /// Appelé chaque Update par ARInputController tant que le joueur AR appuie.
-    /// direction : -1 = -Z, +1 = +Z
-    /// </summary>
+    public void EnterZone() => _model.IsInZone = true;
+    public void ExitZone() => _model.IsInZone = false;
+
     public void MoveAlongZ(float direction)
     {
-        Debug.Log($"[KeyCube] MoveAlongZ appelé, direction={direction}, rb={_rb != null}");
-        Vector3 delta  = Vector3.forward * direction * _moveSpeed * Time.deltaTime;
-        Vector3 target = _rb.position + delta;
-        _rb.MovePosition(target);
+        if (direction == _lastSentDirection) return;
+        _lastSentDirection = direction;
+
+        if (IsServer)
+        {
+            _arMoveDirection = direction;
+        }
+        else
+        {
+            MoveAlongZServerRpc(direction);
+        }
     }
 
-    /// <summary>
-    /// Active ou désactive le grab XRI selon que le joueur AR contrôle le cube.
-    /// </summary>
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void MoveAlongZServerRpc(float direction)
+    {
+        _arMoveDirection = direction;
+    }
+
     public void SetARControlling(bool isControlling)
+    {
+        if (IsServer)
+        {
+            _model.IsARControlling = isControlling;
+        }
+        else
+        {
+            SetARControllingServerRpc(isControlling);
+        }
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void SetARControllingServerRpc(bool isControlling)
     {
         _model.IsARControlling = isControlling;
     }
 
-    // ── Événements XR ─────────────────────────────────────────────────────
     private void OnGrabbed(SelectEnterEventArgs args)
     {
-        _model.SetLockedZ(transform.position.z);
         _model.IsGrabbedByVR = true;
+
+        _lockedZForVR = transform.position.z;
+        _lockedYForVR = transform.position.y;
     }
 
     private void OnReleased(SelectExitEventArgs args)
     {
         _model.IsGrabbedByVR = false;
-        _view.ApplyZConstraint(_model.LockedZ);
+
+        _view.ApplyZConstraint(_lockedZForVR);
     }
 
-    // ── Réactions au Model ─────────────────────────────────────────────────
     private void OnModelStateChanged(bool isInZone)
     {
         _view.SetInZoneState(isInZone);

@@ -2,27 +2,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>
-/// MVC — View (AR)
-/// Utilise EventTrigger sur chaque bouton pour détecter PointerDown/PointerUp,
-/// plus fiable que IPointerDownHandler sur Android.
-/// À placer sur un GameObject UI Canvas (Screen Space - Overlay).
-/// </summary>
+
 public class ARInputView : MonoBehaviour
 {
-    // ── Sérialisation ──────────────────────────────────────────────────────
     [Header("Boutons")]
     [SerializeField] private GameObject _buttonLeft;
     [SerializeField] private GameObject _buttonRight;
 
-    // ── Événements ─────────────────────────────────────────────────────────
     public event System.Action<float> OnDirectionChanged;
 
-    // ── État interne ───────────────────────────────────────────────────────
     private bool _leftHeld;
     private bool _rightHeld;
 
-    // ── Cycle Unity ────────────────────────────────────────────────────────
     private void Awake()
     {
         RegisterButton(_buttonLeft,
@@ -34,7 +25,6 @@ public class ARInputView : MonoBehaviour
             onUp:   () => { _rightHeld = false; BroadcastDirection(); });
     }
 
-    // ── Interne ────────────────────────────────────────────────────────────
     private void RegisterButton(GameObject go, System.Action onDown, System.Action onUp)
     {
         if (go == null)
@@ -47,12 +37,10 @@ public class ARInputView : MonoBehaviour
         if (trigger == null)
             trigger = go.AddComponent<EventTrigger>();
 
-        // PointerDown
         var down = new EventTrigger.Entry { eventID = EventTriggerType.PointerDown };
         down.callback.AddListener(_ => onDown());
         trigger.triggers.Add(down);
 
-        // PointerUp
         var up = new EventTrigger.Entry { eventID = EventTriggerType.PointerUp };
         up.callback.AddListener(_ => onUp());
         trigger.triggers.Add(up);

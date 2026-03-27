@@ -246,6 +246,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5707522155483368188, guid: f1662f04fac2a674b936f68546c31cdb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 109402190}
+    - targetCorrespondingSourceObject: {fileID: 5707522155483368188, guid: f1662f04fac2a674b936f68546c31cdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 109402191}
   m_SourcePrefab: {fileID: 100100000, guid: f1662f04fac2a674b936f68546c31cdb, type: 3}
 --- !u!1 &109402189 stripped
 GameObject:
@@ -264,6 +267,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
+--- !u!114 &109402191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109402189}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2da34371544404384bf4734f34b886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARSpawnManager
 --- !u!1 &219527698
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +463,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &371602690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 371602691}
+  - component: {fileID: 371602693}
+  - component: {fileID: 371602692}
+  m_Layer: 0
+  m_Name: ARInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &371602691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371602690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 726367354}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &371602692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371602690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f910121ff3941d4408c5dbd617ffd424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARInputController
+--- !u!114 &371602693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371602690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd013e8209c327348878e6ca67813e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARInputView
+  _buttonLeft: {fileID: 726367356}
+  _buttonRight: {fileID: 726367355}
 --- !u!1 &529831724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,11 +1402,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7366396661075923734, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 371602691}
+    - targetCorrespondingSourceObject: {fileID: 7366396661075923734, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1374949185}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1446969197927648874, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 726367353}
+    - targetCorrespondingSourceObject: {fileID: 1446969197927648874, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726367360}
   m_SourcePrefab: {fileID: 100100000, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
 --- !u!1 &726367352 stripped
 GameObject:
@@ -1351,6 +1434,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
+--- !u!4 &726367354 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7366396661075923734, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+  m_PrefabInstance: {fileID: 726367351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &726367355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5217075427301168836, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+  m_PrefabInstance: {fileID: 726367351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &726367356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5924089965076690178, guid: d02232b557c26b8458c396401c15e3cb, type: 3}
+  m_PrefabInstance: {fileID: 726367351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &726367360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726367352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2da34371544404384bf4734f34b886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARSpawnManager
 --- !u!1 &748573582
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,12 +2160,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374949182}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 726367354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1461211821
 GameObject:
@@ -3454,7 +3564,6 @@ SceneRoots:
   - {fileID: 8343324500725075800}
   - {fileID: 97379254}
   - {fileID: 1250366801}
-  - {fileID: 1374949185}
   - {fileID: 1584397521}
   - {fileID: 726367351}
   - {fileID: 109402188}

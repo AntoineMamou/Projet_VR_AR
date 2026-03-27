@@ -552,6 +552,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e72a8457afd5f4d9f398ae4e12a55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurviveSceneTransition
+--- !u!4 &593855599 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+  m_PrefabInstance: {fileID: 1699163920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &596438866
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +672,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6439770704486991858, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
   m_PrefabInstance: {fileID: 5158491294752105691}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1295242942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1295242944}
+  - component: {fileID: 1295242943}
+  m_Layer: 0
+  m_Name: XR Interaction Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1295242943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295242942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e4e6cca11330d4088d729ab4fc9d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.XRInteractionManager
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+--- !u!4 &1295242944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295242942}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13, y: 3, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 593855599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1699163920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -735,9 +786,20 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3720374901
       objectReference: {fileID: 0}
+    - target: {fileID: 4122216586070600442, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5304173942884240542, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+      propertyPath: m_JumpHeight
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2039983515178579286, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1295242944}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2237430407951797597, guid: b5d1b0feff9eb25458ec8e984aa1c067, type: 3}
       insertIndex: -1
@@ -757,7 +819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4187820646412841165, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
       propertyPath: m_Name
-      value: VRPlayer
+      value: VRPlayer_old
       objectReference: {fileID: 0}
     - target: {fileID: 4187820646412841165, guid: b116b07c7015d094c8724720e8b5512e, type: 3}
       propertyPath: m_IsActive
