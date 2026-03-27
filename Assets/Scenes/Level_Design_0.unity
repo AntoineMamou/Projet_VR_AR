@@ -1506,6 +1506,10 @@ PrefabInstance:
       propertyPath: revealView
       value: 
       objectReference: {fileID: 911564258}
+    - target: {fileID: 4167597865199692283, guid: b6cbaad3620cb654aaf9bd880d3ead7d, type: 3}
+      propertyPath: _completeLevelOnGrab
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4227052367592216808, guid: b6cbaad3620cb654aaf9bd880d3ead7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13

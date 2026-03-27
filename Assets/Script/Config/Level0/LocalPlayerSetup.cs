@@ -1,21 +1,20 @@
 using Unity.Netcode;
 using UnityEngine;
 
-// Attention : On h�rite bien de NetworkBehaviour et pas de MonoBehaviour !
 public class LocalPlayerSetup : NetworkBehaviour
 {
-    [Header("La Cam�ra attach�e � ce joueur")]
+    [Header("La camera attachee a ce joueur")]
     public Camera playerCamera;
 
-    [Header("L'AudioListener attach� � cette cam�ra (optionnel)")]
+    [Header("L'AudioListener attache a cette camera (optionnel)")]
     public AudioListener playerAudio;
+
+    private VictoryPanelController _victoryPanelController;
 
     public override void OnNetworkSpawn()
     {
-        // Si ce personnage NE m'appartient PAS (c'est l'avatar de l'autre joueur sur mon �cran)
         if (!IsOwner)
         {
-            // Je d�sactive SA cam�ra pour ne pas voir � travers ses yeux
             if (playerCamera != null)
             {
                 playerCamera.gameObject.SetActive(false);
@@ -25,18 +24,40 @@ public class LocalPlayerSetup : NetworkBehaviour
             {
                 playerAudio.enabled = false;
             }
+
+            return;
         }
-        else
+
+        if (playerCamera != null)
         {
-            // Si ce personnage m'appartient, je m'assure que ma cam�ra est bien allum�e
-            if (playerCamera != null)
-            {
-                playerCamera.gameObject.SetActive(true);
-            }
-            if (playerAudio != null)
-            {
-                playerAudio.enabled = true;
-            }
+            playerCamera.gameObject.SetActive(true);
         }
+
+        if (playerAudio != null)
+        {
+            playerAudio.enabled = true;
+        }
+
+        EnsureVictoryPanelController();
+    }
+
+    private void EnsureVictoryPanelController()
+    {
+        if (playerCamera == null)
+        {
+            return;
+        }
+
+        if (_victoryPanelController == null)
+        {
+            _victoryPanelController = GetComponent<VictoryPanelController>();
+        }
+
+        if (_victoryPanelController == null)
+        {
+            _victoryPanelController = gameObject.AddComponent<VictoryPanelController>();
+        }
+
+        _victoryPanelController.Initialize(playerCamera);
     }
 }
