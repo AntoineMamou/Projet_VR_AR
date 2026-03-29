@@ -25,7 +25,7 @@ public class KeyCubeController : NetworkBehaviour
     private float _lockedYForVR;
 
     private float _arMoveDirection = 0f;
-    private float _lastSentDirection = -999f; // Filtre anti-spam
+    private float _lastSentDirection = -999f;
 
     private void Awake()
     {

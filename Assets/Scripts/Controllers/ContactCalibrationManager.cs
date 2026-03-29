@@ -37,13 +37,13 @@ public class ContactCalibrationManager : MonoBehaviour
 
         Vector3 scaledExpectedLocalPos = Vector3.Scale(poseToAlign.localPosition, objectToCalibrate.localScale);
 
-        // Étape 2 : Rotation avec Quaternions (Et on ajoute les 180° pour le Face-à-Face)
+        // Rotation (on ajoute les 180° à cause du face à face)
         Quaternion demiTour = Quaternion.Euler(0, 180f, 0);
         Quaternion rotationCible = referencePose.rotation * demiTour;
 
         objectToCalibrate.rotation = rotationCible * Quaternion.Inverse(poseToAlign.localRotation);
 
-        // Étape 3 : Appliquer la position finale
+        //Appliquer la position finale
         Vector3 finalPosition = referencePose.position - objectToCalibrate.rotation * scaledExpectedLocalPos;
         objectToCalibrate.position = finalPosition;
 
